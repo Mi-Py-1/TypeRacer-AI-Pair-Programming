@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
         wpmDisplay.textContent = wpm;
 
         // Update difficulty level
+        const selectedDifficulty = difficultySelect.value;
         levelDisplay.textContent = difficultySelect.options[difficultySelect.selectedIndex].text;
 
         // Update best results
@@ -140,9 +141,9 @@ document.addEventListener('DOMContentLoaded', function() {
         startButton.disabled = false;
         stopButton.disabled = true;
         retryButton.disabled = true;
+        userInput.disabled = false;
         updateSampleText();
     });
-
     userInput.addEventListener('input', highlightText);
     userInput.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
