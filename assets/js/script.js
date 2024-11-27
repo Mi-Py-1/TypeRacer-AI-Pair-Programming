@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     let startTime, endTime;
+    let testStarted = false;
 
     const startButton = document.getElementById('start-btn');
     const stopButton = document.getElementById('stop-btn');
@@ -44,12 +45,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function startTest() {
         startTime = new Date();
+        testStarted = true;
         startButton.disabled = true;
         stopButton.disabled = false;
         retryButton.disabled = true;
         resultDisplay.textContent = '0';
         wpmDisplay.textContent = '0';
-        userInput.value = '';
         userInput.disabled = false;
         userInput.focus();
     }
@@ -84,6 +85,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function highlightText() {
+        if (!testStarted) {
+            startTest();
+        }
+
         const sampleText = sampleTextDiv.textContent.trim();
         const userText = userInput.value.trim();
         const sampleWords = sampleText.split(' ');
@@ -105,10 +110,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     difficultySelect.addEventListener('change', updateSampleText);
-    startButton.addEventListener('click', startTest);
     stopButton.addEventListener('click', stopTest);
-    retryButton.addEventListener('click', startTest);
+    retryButton.addEventListener('click', function() {
+        testStarted = false;
+        startTest();
+    });
+
     userInput.addEventListener('input', highlightText);
+    userInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            stopTest();
+        }
+    });
 
     // Initialize with a random text from the default difficulty level
     updateSampleText();
