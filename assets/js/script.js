@@ -19,6 +19,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const difficultySelect = document.getElementById('difficulty');
     const sampleTextDiv = document.getElementById('sample-text');
+    const startButton = document.getElementById('start-btn');
+    const stopButton = document.getElementById('stop-btn');
+    const resultDisplay = document.getElementById('result');
+
+    let startTime, endTime;
 
     function getRandomText(textArray) {
         const randomIndex = Math.floor(Math.random() * textArray.length);
@@ -40,7 +45,25 @@ document.addEventListener('DOMContentLoaded', function() {
         sampleTextDiv.textContent = selectedText;
     }
 
+    function startTest() {
+        startTime = new Date();
+        startButton.disabled = true;
+        stopButton.disabled = false;
+        resultDisplay.textContent = '';
+    }
+
+    function stopTest() {
+        endTime = new Date();
+        const timeTaken = (endTime - startTime) / 1000;
+        resultDisplay.textContent = `Time taken: ${timeTaken.toFixed(2)} seconds`;
+        startButton.disabled = false;
+        stopButton.disabled = true;
+    }
+
     difficultySelect.addEventListener('change', updateSampleText);
+    startButton.addEventListener('click', startTest);
+    stopButton.addEventListener('click', stopTest);
+
 
     // Initialize with a random text from the default difficulty level
     updateSampleText();
