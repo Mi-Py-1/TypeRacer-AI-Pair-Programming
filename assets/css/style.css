@@ -39,13 +39,13 @@ header {
 
 /* results-area */
 
-#results-area {
+#results-area, #best-results {
     box-shadow: 0 0 10px #ff8400;
     border-radius: 10px;
     padding: 20px;
 }
 
-#results-area p {
+#results-area p, #best-results p {
     font-size: 1.1rem;
     margin-bottom: 5px;
 }

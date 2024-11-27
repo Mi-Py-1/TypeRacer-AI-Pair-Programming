@@ -11,6 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const difficultySelect = document.getElementById('difficulty');
     const sampleTextDiv = document.getElementById('sample-text');
     const userInput = document.getElementById('user-input');
+    const bestEasyDisplay = document.getElementById('best-easy');
+    const bestMediumDisplay = document.getElementById('best-medium');
+    const bestHardDisplay = document.getElementById('best-hard');
+
+    let bestResults = {
+        easy: 0,
+        medium: 0,
+        hard: 0
+    };
 
     function updateSampleText() {
         const selectedDifficulty = difficultySelect.value;
@@ -82,6 +91,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update difficulty level
         levelDisplay.textContent = difficultySelect.options[difficultySelect.selectedIndex].text;
+
+        // Update best results
+        if (wpm > bestResults[selectedDifficulty]) {
+            bestResults[selectedDifficulty] = wpm;
+            updateBestResultsDisplay();
+        }
+    }
+
+    function updateBestResultsDisplay() {
+        bestEasyDisplay.textContent = bestResults.easy;
+        bestMediumDisplay.textContent = bestResults.medium;
+        bestHardDisplay.textContent = bestResults.hard;
     }
 
     function highlightText() {
