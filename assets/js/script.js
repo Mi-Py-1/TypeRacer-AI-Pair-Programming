@@ -1,45 +1,27 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const easyTexts = [
-        "The cat sat on the mat.",
-        "A quick brown fox jumps over the lazy dog.",
-        "She sells seashells by the seashore."
-    ];
-
-    const mediumTexts = [
-        "To be or not to be, that is the question.",
-        "All that glitters is not gold.",
-        "A journey of a thousand miles begins with a single step."
-    ];
-
-    const hardTexts = [
-        "It was the best of times, it was the worst of times.",
-        "In the beginning God created the heavens and the earth.",
-        "The only thing we have to fear is fear itself."
-    ];
-
-    const difficultySelect = document.getElementById('difficulty');
-    const sampleTextDiv = document.getElementById('sample-text');
-    const startButton = document.getElementById('start-btn');
-    const stopButton = document.getElementById('stop-btn');
-    const resultDisplay = document.getElementById('result');
-
     let startTime, endTime;
 
-    function getRandomText(textArray) {
-        const randomIndex = Math.floor(Math.random() * textArray.length);
-        return textArray[randomIndex];
-    }
+    const startButton = document.getElementById('start-btn');
+    const stopButton = document.getElementById('stop-btn');
+    const retryButton = document.getElementById('retry-btn');
+    const resultDisplay = document.getElementById('time');
+    const wpmDisplay = document.getElementById('wpm');
+    const levelDisplay = document.getElementById('level');
+    const difficultySelect = document.getElementById('difficulty');
+    const sampleTextDiv = document.getElementById('sample-text');
+    const userInput = document.getElementById('user-input');
 
     function updateSampleText() {
-        let selectedDifficulty = difficultySelect.value;
-        let selectedText;
+        const selectedDifficulty = difficultySelect.value;
+        let selectedText = '';
 
+        // Example texts for different difficulty levels
         if (selectedDifficulty === 'easy') {
-            selectedText = getRandomText(easyTexts);
+            selectedText = 'The quick brown fox jumps over the lazy dog.';
         } else if (selectedDifficulty === 'medium') {
-            selectedText = getRandomText(mediumTexts);
+            selectedText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
         } else if (selectedDifficulty === 'hard') {
-            selectedText = getRandomText(hardTexts);
+            selectedText = 'Sphinx of black quartz, judge my vow.';
         }
 
         sampleTextDiv.textContent = selectedText;
@@ -49,21 +31,47 @@ document.addEventListener('DOMContentLoaded', function() {
         startTime = new Date();
         startButton.disabled = true;
         stopButton.disabled = false;
-        resultDisplay.textContent = '';
+        retryButton.disabled = true;
+        resultDisplay.textContent = '0';
+        wpmDisplay.textContent = '0';
+        userInput.value = '';
+        userInput.disabled = false;
+        userInput.focus();
     }
 
     function stopTest() {
         endTime = new Date();
         const timeTaken = (endTime - startTime) / 1000;
-        resultDisplay.textContent = `Time taken: ${timeTaken.toFixed(2)} seconds`;
+        resultDisplay.textContent = timeTaken.toFixed(2);
         startButton.disabled = false;
         stopButton.disabled = true;
+        retryButton.disabled = false;
+        userInput.disabled = true;
+
+        // Calculate WPM
+        const sampleText = sampleTextDiv.textContent.trim();
+        const userText = userInput.value.trim();
+        const sampleWords = sampleText.split(' ');
+        const userWords = userText.split(' ');
+        let correctWords = 0;
+
+        for (let i = 0; i < userWords.length; i++) {
+            if (userWords[i] === sampleWords[i]) {
+                correctWords++;
+            }
+        }
+
+        const wpm = Math.round((correctWords / timeTaken) * 60);
+        wpmDisplay.textContent = wpm;
+
+        // Update difficulty level
+        levelDisplay.textContent = difficultySelect.options[difficultySelect.selectedIndex].text;
     }
 
     difficultySelect.addEventListener('change', updateSampleText);
     startButton.addEventListener('click', startTest);
     stopButton.addEventListener('click', stopTest);
-
+    retryButton.addEventListener('click', startTest);
 
     // Initialize with a random text from the default difficulty level
     updateSampleText();
