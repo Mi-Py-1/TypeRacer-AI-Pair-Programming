@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedText = mediumTexts[Math.floor(Math.random() * mediumTexts.length)];
         } else if (selectedDifficulty === 'hard') {
             const hardTexts = [
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                'Vivamus luctus urna sed urna ultricies ac tempor dui sagittis.',
-                'In condimentum facilisis porta. Sed nec diam eu diam mattis viverra.'
+                'The quick onyx goblin jumps over the lazy dwarf.',
+                'Jovial zookeeper quickly brightens the vixen\'s cage.',
+                'Exquisite farm wench gives body jolt to prize stinker.'
             ];
             selectedText = hardTexts[Math.floor(Math.random() * hardTexts.length)];
         }
@@ -83,10 +83,32 @@ document.addEventListener('DOMContentLoaded', function() {
         levelDisplay.textContent = difficultySelect.options[difficultySelect.selectedIndex].text;
     }
 
+    function highlightText() {
+        const sampleText = sampleTextDiv.textContent.trim();
+        const userText = userInput.value.trim();
+        const sampleWords = sampleText.split(' ');
+        const userWords = userText.split(' ');
+
+        let highlightedText = '';
+
+        for (let i = 0; i < sampleWords.length; i++) {
+            if (userWords[i] === sampleWords[i]) {
+                highlightedText += `<span class="correct">${sampleWords[i]}</span> `;
+            } else if (userWords[i]) {
+                highlightedText += `<span class="incorrect">${sampleWords[i]}</span> `;
+            } else {
+                highlightedText += `${sampleWords[i]} `;
+            }
+        }
+
+        sampleTextDiv.innerHTML = highlightedText.trim();
+    }
+
     difficultySelect.addEventListener('change', updateSampleText);
     startButton.addEventListener('click', startTest);
     stopButton.addEventListener('click', stopTest);
     retryButton.addEventListener('click', startTest);
+    userInput.addEventListener('input', highlightText);
 
     // Initialize with a random text from the default difficulty level
     updateSampleText();
