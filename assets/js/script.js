@@ -17,11 +17,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Example texts for different difficulty levels
         if (selectedDifficulty === 'easy') {
-            selectedText = 'The quick brown fox jumps over the lazy dog.';
+            const easyTexts = [
+                'The quick brown fox jumps over the lazy dog.',
+                'Pack my box with five dozen liquor jugs.',
+                'How razorback-jumping frogs can level six piqued gymnasts!'
+            ];
+            selectedText = easyTexts[Math.floor(Math.random() * easyTexts.length)];
         } else if (selectedDifficulty === 'medium') {
-            selectedText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+            const mediumTexts = [
+                'Sphinx of black quartz, judge my vow.',
+                'The five boxing wizards jump quickly.',
+                'Jinxed wizards pluck ivy from the big quilt.'  
+            ];
+            selectedText = mediumTexts[Math.floor(Math.random() * mediumTexts.length)];
         } else if (selectedDifficulty === 'hard') {
-            selectedText = 'Sphinx of black quartz, judge my vow.';
+            const hardTexts = [
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                'Vivamus luctus urna sed urna ultricies ac tempor dui sagittis.',
+                'In condimentum facilisis porta. Sed nec diam eu diam mattis viverra.'
+            ];
+            selectedText = hardTexts[Math.floor(Math.random() * hardTexts.length)];
         }
 
         sampleTextDiv.textContent = selectedText;
