@@ -110,10 +110,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     difficultySelect.addEventListener('change', updateSampleText);
-    stopButton.addEventListener('click', stopTest);
     retryButton.addEventListener('click', function() {
         testStarted = false;
-        startTest();
+        userInput.value = '';
+        sampleTextDiv.textContent = '';
+        resultDisplay.textContent = '0';
+        wpmDisplay.textContent = '0';
+        startButton.disabled = false;
+        stopButton.disabled = true;
+        retryButton.disabled = true;
+        updateSampleText();
     });
 
     userInput.addEventListener('input', highlightText);
